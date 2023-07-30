@@ -25,4 +25,12 @@ public class CategoryService {
     public List<Characteristic> getCategoryById(Long categoryId) {
         return characteristicRepository.findCharacteristicsByCategoryId(categoryId);
     }
+
+    public void createCategory(Category category) {
+        categoryRepository.save(category);
+    }
+
+    public void setCharacteristicsToNewCategory(Characteristic characteristic) {
+        characteristicRepository.save(characteristic);
+    }
 }

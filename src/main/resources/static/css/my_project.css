@@ -51,6 +51,14 @@
     position: relative;
 }
 
+.category_block {
+    height: 50px;
+}
+
+.category_block:hover {
+    background: #d0dfee;
+}
+
 .products_block:hover {
     background: #d0dfee;
 }

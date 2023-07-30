@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<form action="/admin/products/create_category" method="post">
+
+    Название категории:<input type="text" name="categoryName">
+
+    Характеристики:<input type="text" name="charName">
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

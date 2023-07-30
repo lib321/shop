@@ -82,4 +82,25 @@ public class AdminProductController {
         productService.createProduct(productName, productPrice, categoryId, characteristicIds, values);
         return "redirect:/admin/products";
     }
+
+    @GetMapping(path = "/create_category")
+    public String createCategoryPage() {
+        return "adminProduct/create_category_page";
+    }
+
+    @PostMapping(path = "/create_category")
+    public String createCategoryAction(@RequestParam(name = "categoryName") String categoryName,
+                                       @RequestParam(name = "charName") String charName) {
+        Category category = new Category();
+        category.setName(categoryName);
+        String[] split = charName.split(",\\s");
+        categoryService.createCategory(category);
+        for (String s : split) {
+            Characteristic characteristic = new Characteristic();
+            characteristic.setName(s);
+            characteristic.setCategory(category);
+            categoryService.setCharacteristicsToNewCategory(characteristic);
+        }
+        return "redirect:/admin/products";
+    }
 }
