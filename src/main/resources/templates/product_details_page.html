@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_fragment :: header_fragment"></th:block>
+<link rel="stylesheet" href="/css/my_project.css">
+
+<body>
+
+<div class="main_block profile_main_block">
+    <form action="/products/details" method="get">
+
+        <div class="padding_main">
+            <p class="padding_main">Информация о товаре:</p>
+            <input type="hidden" name="productId" th:value="${product.getId()}">
+
+            <div class="products_blocks">
+                <div class="left_side">
+                    <p class="product_details_padding">ID:</p>
+                    <p class="product_details_padding">Название:</p>
+                    <p class="product_details_padding">Цена:</p>
+                    <p class="product_details_padding">Категория:</p>
+                </div>
+                <div>
+                    <p class="product_details_padding"><b th:text="${product.getId()}"></b></p>
+                    <p class="product_details_padding"><b th:text="${product.getName()}"></b></p>
+                    <p class="product_details_padding"><b th:text="${product.getPrice()}"></b></p>
+                    <p class="product_details_padding"><b th:text="${product.getCategory().getName()}"></b></p>
+                </div>
+            </div>
+            <p class="padding_main">Харкатеристики товара:</p>
+            <div class="products_blocks">
+                <div class="left_side">
+                    <div th:each="charValue : ${product.getCharValues()}">
+                        <p class="product_details_padding" th:text="${charValue.getCharacteristic().getName()}"></p>
+                    </div>
+                </div>
+                <div>
+                    <div th:each="charValue : ${product.getCharValues()}">
+                        <p class="product_details_padding"><b th:text="${charValue.getValue()}"></b></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <p class="reviews_info">Отзывы к товару:</p>
+        <div class="main_review_info order_border" th:each="review : ${reviews}">
+            <div class="reviews_info_about_product">
+                <span>Пользователь:</span>
+                <span><b th:text="${review.getUsers().getName()}"></b></span>
+            </div>
+            <div class="reviews_info_about_product">
+                <span>Отзыв:</span>
+                <span><b th:text="${review.getText()}"></b></span>
+            </div>
+            <div class="reviews_info_about_product">
+                <span>Оценка:</span>
+                <span><b th:text="${review.getMark()}"></b></span>
+            </div>
+        </div>
+<div class="products_blocks avg_rate_padding">
+    <div class="left_side">
+        <p>Средний рейтинг:</p>
+    </div>
+    <div>
+        <p><b th:text="${avgMark}"></b></p>
+    </div>
+</div>
+</form>
+
+<div class="moderation_review_info">
+    <div th:if="${@userService.getCurrentUser() != null}">
+        <div th:if="${user == null}">
+            <form action="/products/create_review" method="post">
+                <div>
+                    <input type="hidden" name="productId" th:value="${product.getId()}">
+
+                    <p class="new_review">Отзыв:</p>
+                    <input class="new_review mark_review buttons_main" type="text" name="text">
+
+                    <select class="buttons_main" name="mark">Оценка
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <p></p>
+                    <button class="buttons_main new_review update_review" type="submit">Оставить отзыв</button>
+                </div>
+            </form>
+        </div>
+
+        <div th:if="${user != null}">
+            <div th:if="${review == null}">
+                <b>Ваш отзыв сейчас на обработке модерацией</b>
+            </div>
+            <div th:if="${review != null}">
+                <b>Ранее вы уже оставляли отзыв, вы можете только редактировать свой отзыв</b>
+                <form class="update_review" action="/products/update_review" method="post">
+                    <input type="hidden" name="productId" th:value="${product.getId()}">
+
+                    <input class="mark_review buttons_main" type="text" name="text">
+
+                    <select class="mark_review buttons_main" name="mark">Оценка
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                    <button class="buttons_main" type="submit">Редактировать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:if="${@userService.getCurrentUser() == null}">
+        <b>Отзывы могут оставлять только авторизованные пользователи</b>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

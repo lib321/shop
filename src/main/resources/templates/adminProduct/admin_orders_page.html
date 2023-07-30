@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_admin_fragment :: header_admin_fragment"></th:block>
+
+<body>
+
+<div class="main_block admin_main_block padding_main_admin review_main_block admin_order_background">
+    <div class="order_border padding_main_admin margin_main orders_background" th:each="order : ${orders}">
+        <div class="reviews_info_about_product">
+            <span>Пользователь:</span>
+            <span><b th:text="${order.getUserId().getName()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Адрес:</span>
+            <span><b th:text="${order.getAdress()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Дата оформления:</span>
+            <span><b th:text="${order.getCreated_at()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Статус:</span>
+            <span><b th:text="${order.getOrderStatus()}"></b></span>
+        </div>
+        <div class="order_border padding_main margin_admin_orders orders_products"
+             th:each="product : ${order.getOrderProducts()}">
+            <div class="reviews_info_about_product">
+                <span>Товар:</span>
+                <span><b th:text="${product.getProduct().getName()}"></b></span>
+            </div>
+            <div class="reviews_info_about_product">
+                <span>Количество:</span>
+                <span><b th:text="${product.getCount()}"></b></span>
+            </div>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Стоимость:</span>
+            <span><b th:text="${@orderService.getPrice(order.getId())}"></b></span>
+        </div>
+
+        <div th:if="${order.getOrderStatus().equals(order.getOrderStatus().CREATED)}">
+            <form action="/admin/orders" method="post">
+                <input type="hidden" name="orderId" th:value="${order.getId()}">
+                <button class="buttons_main buttons_admin_font button_admin_order order_border" type="submit">Принять
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

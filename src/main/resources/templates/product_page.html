@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_fragment :: header_fragment"></th:block>
+
+<link rel="stylesheet" href="/css/my_project.css">
+
+<body>
+
+<div class="main_block padding_main product_main_block">
+    <div class="products_blocks" th:each="product : ${products}">
+        <div class="left_side">
+            <p>Название: <b th:text="${product.getName()}"></b></p>
+            <form action="/products/details" method="get">
+                <input type="hidden" name="productId" th:value="${product.getId()}">
+                <button class="buttons_main buttons_product button_details" type="submit">Подробнее</button>
+            </form>
+        </div>
+
+        <div class="products_priceAnd_count">
+            <p>Цена: <b th:text="${product.getPrice()}"></b></p>
+            <form action="/products/addProductToCart" method="post">
+                <input type="hidden" name="productId" th:value="${product.getId()}">
+                <select class="buttons_main buttons_product add_count" name="count">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <button class="buttons_main buttons_product add_product" type="submit">Добавить</button>
+                <div class="not_authorization_add_product order_border" th:if="${@userService.getCurrentUser() == null}">
+                    Пожалуйста авторизуйтесь!
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

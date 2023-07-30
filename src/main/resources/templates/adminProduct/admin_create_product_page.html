@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<form action="/admin/products/create" method="post">
+
+    <input type="hidden" name="categoryId" th:value="${categoryId}">
+
+    <div class="padding_main">
+        <p class="font product_details_padding">Название</p>
+        <input class="order_border padding_left" type="text" name="productName">
+    </div>
+
+    <div class="padding_main">
+        <p class="font product_details_padding">Стоимость</p>
+        <input class="order_border padding_left" type="text" name="productPrice">
+    </div>
+
+    <div class="padding_main" th:each="characteristic : ${characteristics}">
+        <p class="font product_details_padding" th:text="${characteristic.getName()}"></p>
+        <input class="order_border padding_left" type="text" name="characteristic" th:value="${characteristic.id}">
+        <input class="order_border padding_left" type="text" name="value">
+    </div>
+
+    <button class="button_submit buttons_admin_font order_border margin_left" type="submit">Submit</button>
+
+</form>
+
+</body>
+</html>

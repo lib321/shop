@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<link rel="stylesheet" href="/css/my_project.css">
+
+<body>
+
+<div class="create_order_main">
+    <form action="/order/create_order" method="post">
+        <span>Введите адрес:</span>
+        <input class="buttons_main" type="text" name="adress">
+        <button class="buttons_main button_submit" type="submit">Оформить</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<form action="/admin/products/update" method="post">
+
+    <input type="hidden" name="productId" th:value="${product.getId()}">
+
+    <div class="padding_main">
+        <p class="font product_details_padding">Название</p>
+        <input class="padding_left order_border" type="text" name="productName" th:value="${product.getName()}">
+    </div>
+
+    <div class="padding_main">
+        <p class="font product_details_padding">Стоимость</p>
+        <input class="padding_left order_border" type="text" name="productPrice" th:value="${product.getPrice()}">
+    </div>
+
+    <div class="padding_main" th:each="charValues : ${product.getCharValues()}">
+        <p class="font product_details_padding" th:text="${charValues.getCharacteristic().getName()}"></p>
+        <input class="padding_left order_border" type="text" name="charValue" th:value="${charValues.getValue()}">
+    </div>
+
+    <button class="margin_left button_submit buttons_admin_font order_border" type="submit">Submit</button>
+</form>
+
+</body>
+</html>

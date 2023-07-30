@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+
+<body>
+
+<form class="padding_main_admin" action="/admin/products/create" method="get">
+
+    <span class="font">Выберите категорию</span>
+    <select class="buttons_admin_font order_border button_submit" name="categoryId">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.getName()}"></option>
+    </select>
+
+    <button class="buttons_admin_font order_border button_submit" type="submit">Submit</button>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_fragment :: header_fragment"></th:block>
+
+<body>
+
+<div th:if="${@userService.getCurrentUser() != null}">
+    <div class="main_block cartItem_main_block">
+        <div class="cartItem_user padding_main">
+            <p>Пользователь: <b th:text="${user.getName()}"></b></p>
+        </div>
+        <hr style="border-bottom: 1px solid black">
+
+        <div th:each="cartItem : ${cartItems}">
+            <div class="padding_main inner_cartItem_block">
+                <div class="left_side">
+                    <p class="product_cartItem">Товар: <b th:text="${cartItem.getProduct().getName()}"></b></p>
+                    <p>Стоимость: <b th:text="${cartItem.getProduct().getPrice() * cartItem.getCount()}"></b></p>
+                </div>
+                <div>
+                    <p>Количество: <b th:text="${cartItem.getCount()}"></b></p>
+                    <form action="/cartItem/increase_product" method="get">
+                        <input type="hidden" name="productId" th:value="${cartItem.getProduct().getId()}">
+                        <button class="buttons_main button_cartItem" type="submit">Увеличить на 1</button>
+                    </form>
+                    <form action="/cartItem/decrease_product" method="get">
+                        <input type="hidden" name="productId" th:value="${cartItem.getProduct().getId()}">
+                        <button class="buttons_main button_cartItem" type="submit">Уменьшить на 1</button>
+                    </form>
+                    <form action="/cartItem/delete_cartItem" method="get">
+                        <input type="hidden" name="productId" th:value="${cartItem.getProduct().getId()}">
+                        <button class="buttons_main button_cartItem" type="submit">Удалить</button>
+                    </form>
+                </div>
+            </div>
+            <hr style="border-bottom: 1px solid black">
+        </div>
+
+        <div class="padding_main cartItem_totalPrice">
+            <p>Общая стоимость: <b th:text="${sum}"></b></p>
+
+            <div th:if="${!cartItems.isEmpty()}">
+                <form action="/order/create_order" method="get">
+                    <button class="buttons_main button_cartItem" type="submit">Оформить заказ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cartItem_block" th:if="${@userService.getCurrentUser() == null}">
+    <div class="not_authorization order_border">
+        Пожалуйста авторизуйтесь!
+    </div>
+</div>
+
+</body>
+</html>

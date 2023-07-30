@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_fragment :: header_fragment"></th:block>
+
+<link rel="stylesheet" href="/css/my_project.css">
+
+<body>
+
+<div th:if="${@userService.getCurrentUser() != null}">
+    <div class="main_block padding_main profile_main_block">
+        <div class="order_border user_profile">
+            <p>Пользователь: <b th:text="${user.getName()}"></b></p>
+        </div>
+
+        <div class="order_border profile_orders" th:each="order : ${orders}">
+            <div class="order_main_info order_info">
+                <p>Заказ № <b th:text="${order.getId()}"></b>
+                    , от <b th:text="${order.getCreated_at()}"></b>
+                    , в статусе: <b th:text="${order.getOrderStatus()}"></b></p>
+            </div>
+            <hr style="border-bottom: 1px solid black">
+            <div class="order_main_info order_address">
+                <p>Адрес: <b th:text="${order.getAdress()}"></b></p>
+            </div>
+            <hr style="border-bottom: 1px solid black">
+            <div class="order_products" th:each="product : ${order.getOrderProducts()}">
+                <p>Товар: <b th:text="${product.getProduct().getName()}"></b></p>
+                <p>Количество: <b th:text="${product.getCount()}"></b></p>
+            </div>
+            <div class="price">
+                <p>Стоимость: <b th:text="${@orderService.getPrice(order.getId())}"></b></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="profile_block" th:if="${@userService.getCurrentUser() == null}">
+    <div class="not_authorization order_border">
+        Пожалуйста авторизуйтесь!
+    </div>
+</div>
+
+
+</body>
+</html>

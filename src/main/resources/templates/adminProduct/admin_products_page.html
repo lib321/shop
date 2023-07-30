@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_admin_fragment :: header_admin_fragment"></th:block>
+
+<body>
+
+<div class="main_block admin_main_background padding_main_admin">
+    <div class="admin_main_block">
+        <div>
+            <form action="/admin/products" method="get">
+                <select class="buttons_main buttons_admin_font order_border" name="categoryId">
+                    <option value="-1">Все категории</option>
+                    <option th:each="category : ${categories}" th:value="${category.id}"
+                            th:text="${category.getName()}"></option>
+                </select>
+                <button class="buttons_main buttons_admin_font order_border button_submit" type="submit">Submit</button>
+            </form>
+        </div>
+        <div>
+            <div class="order_border padding_main admin_products" th:each="product : ${products}">
+                <p>Название: <b th:text="${product.getName()}"></b></p>
+                <p>Цена: <b th:text="${product.getPrice()}"></b></p>
+                <form action="/admin/products/delete" method="post">
+                    <input type="hidden" name="productId" th:value="${product.getId()}">
+                    <button class="buttons_main buttons_admin_font order_border button_delete" type="submit">Delete
+                    </button>
+                </form>
+                <form action="/admin/products/update" method="get">
+                    <input type="hidden" name="productId" th:value="${product.getId()}">
+                    <button class="buttons_main buttons_admin_font order_border button_update" type="submit">Update
+                    </button>
+                </form>
+            </div>
+
+            <form action="/admin/products/create" method="get">
+                <button class="buttons_main buttons_admin_font order_border button_create" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

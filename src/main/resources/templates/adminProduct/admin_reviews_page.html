@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<link rel="stylesheet" href="/css/my_project.css">
+<th:block th:replace="fragments/head_fragment :: head_fragment"></th:block>
+<th:block th:replace="fragments/header_admin_fragment :: header_admin_fragment"></th:block>
+
+<body>
+
+<div class="main_block padding_main_admin review_main_block admin_main_background">
+    <div class="order_border padding_main margin_main review_background" th:each="review : ${reviews}">
+        <div class="reviews_info_about_product">
+            <span>Пользователь:</span>
+            <span><b th:text="${review.getUsers().getName()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Товар:</span>
+            <span><b th:text="${review.getProduct().getName()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Отзыв:</span>
+            <span><b th:text="${review.getText()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Оценка:</span>
+            <span><b th:text="${review.getMark()}"></b></span>
+        </div>
+        <div class="reviews_info_about_product">
+            <span>Дата:</span>
+            <span><b th:text="${review.getPublished_at()}"></b></span>
+        </div>
+
+        <form action="/admin/reviews" method="post">
+            <input type="hidden" name="userId" th:value="${review.getUsers().getId()}">
+            <input type="hidden" name="productId" th:value="${review.getProduct().getId()}">
+            <button class="buttons_admin_font order_border button_submit" type="submit">Опубликовать</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
